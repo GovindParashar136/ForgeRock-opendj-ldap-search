@@ -1,0 +1,79 @@
+<project xmlns:ivy="antlib:org.apache.ivy.ant" name="ForgeRock-opendj-ldap-search" default="main" basedir="." >
+	<description>
+		Create a Java Project ForgeRock-opendj-ldap-search(JAR) with Ant build script
+	</description>
+
+	<property name="projectName" value="ForgeRock-opendj-ldap-search" />
+	<!-- Java sources -->
+	<property name="src.dir" location="src" />
+	<!-- Java classes -->
+	<property name="build.dir" location="bin" />
+	<!-- Output, Jar -->
+	<property name="dist.dir" location="build" />
+	<!-- Copy external libraries to external folder -->
+	<property name="dist.lib.dir" location="build/ForgeRock-opendj-ldap-search_lib" />
+	<!-- External libraries, Jar -->
+	<property name="lib.dir" location="." />
+
+	<property name="mainclass" value="org.gjp.ldap.search.TestClass"/>
+
+	<!--<ivy:settings file="./ivysettings.xml" />-->
+
+	<target name="init">
+		<!-- Create the time stamp -->
+		<!--<tstamp />-->
+		<!-- Create the build directory structure used by compile -->
+		<mkdir dir="${build.dir}" />
+	</target>
+
+	<!--<target name="resolve">
+		<ivy:retrieve/>
+	</target>-->
+
+	<path id="classpath">
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	<target name="copy-dependencies">
+		<copy todir="${dist.lib.dir}">
+			<fileset dir="${lib.dir}" includes="**/*.jar"/>
+		</copy>
+	</target>
+
+	<target name="compile" depends="init, copy-dependencies" description="compile the source ">
+		<echo message="***********Compile Java Classes************** " />
+		<!-- Compile the java code from ${src.dir} into ${build.dir} -->
+		<javac includeantruntime="false" srcdir="${src.dir}" destdir="${build.dir}" classpathref="classpath" debug="on">
+			<!--<classpath refid="classpath" />-->
+		</javac>
+	</target>
+
+	<target name="build" depends="compile" description="package, output to JAR">
+		<!-- Create the distribution directory -->
+		<mkdir dir="${dist.dir}" />
+		<mkdir dir="${dist.lib.dir}" />
+		<!-- Put everything in ${build} into the {$projectName}.jar file -->
+		<jar jarfile="${dist.dir}/${projectName}.jar" basedir="${build.dir}">
+			<manifest>
+				<attribute name="Main-Class" value="${mainclass}" />
+				<attribute name="Class-Path" value=". activation-1.1.jar api-descriptor-22.0.0.jar asciidoctorj-1.5.4.jar auth-node-api-5.5.1.jar auth-nodes-5.5.1.jar auth-trees-engine-5.5.1.jar authz-framework-22.0.0.jar authz-framework-api-22.0.0.jar aws-java-sdk-core-1.10.72.jar aws-java-sdk-sns-1.10.72.jar aws-java-sdk-sqs-1.10.72.jar bcpkix-jdk15on-1.57.jar bcprov-jdk15on-1.57.jar byte-buddy-1.7.1.jar cc_de-2008-08-08.jar cc_es-2008-08-08.jar cc_fr-2008-08-08.jar cc_it-2008-08-08.jar cc_ja-2008-08-08.jar cc_ko-2008-08-08.jar cc_sv-2008-08-08.jar cc_zh_CN-2008-08-08.jar cc_zh_HK-2008-08-08.jar cc_zh_TW-2008-08-08.jar cc_zh-2008-08-08.jar cc-2008-08-08.jar chf-client-apache-async-22.0.0.jar chf-client-apache-common-22.0.0.jar chf-client-apache-sync-22.0.0.jar chf-http-core-22.0.0.jar chf-http-grizzly-22.0.0.jar chf-http-servlet-22.0.0.jar chf-oauth2-22.0.0.jar click-extras-2.3.0.jar click-nodeps-2.3.0.jar commons-codec-1.10.jar commons-collections-3.2.2.jar commons-fileupload-1.3.3.jar commons-io-2.3.jar commons-lang-2.6.jar commons-logging-1.1.3.jar commons-logging-api-1.1.jar esapiport-2013-12-04.jar FastInfoset-1.2.13.jar fastutil-6.5.11.jar forgerock-audit-core-22.0.0.jar super-csv-2.4.0.jar slf4j-api-1.7.21.jar jackson-core-2.8.9.jar jackson-databind-2.8.9.jar jackson-annotations-2.8.9.jar json-resource-22.0.0.jar forgerock-util-22.0.0.jar i18n-core-1.4.2.jar swagger-models-1.5.9.jar forgerock-guava-collect-18.0.4.jar forgerock-guava-math-18.0.4.jar forgerock-guava-primitives-18.0.4.jar json-schema-core-22.0.0.jar forgerock-guava-base-18.0.4.jar forgerock-guava-annotations-18.0.4.jar joda-time-2.9.7.jar org.apache.servicemix.bundles.javax-inject-1_2.jar security-22.0.0.jar jackson-module-jsonSchema-2.8.9.jar validation-api-1.1.0.Final.jar forgerock-audit-handler-csv-22.0.0.jar forgerock-audit-handler-elasticsearch-22.0.0.jar forgerock-audit-handler-jdbc-22.0.0.jar forgerock-audit-handler-jms-22.0.0.jar forgerock-audit-handler-json-22.0.0.jar forgerock-audit-handler-splunk-22.0.0.jar forgerock-audit-handler-syslog-22.0.0.jar forgerock-audit-json-22.0.0.jar forgerock-backstage-connect-config.jar forgerock-bloomfilter-core-1.0.1.jar forgerock-bloomfilter-monitoring-1.0.1.jar forgerock-guava-all-18.0.4.jar forgerock-guava-cache-18.0.4.jar forgerock-guava-concurrent-18.0.4.jar forgerock-guava-escape-18.0.4.jar forgerock-guava-eventbus-18.0.4.jar forgerock-guava-hash-18.0.4.jar forgerock-guava-io-18.0.4.jar forgerock-guava-net-18.0.4.jar forgerock-guava-reflect-18.0.4.jar forgerock-jaspi-jwt-session-module-22.0.0.jar forgerock-jaspi-openid-connect-module-22.0.0.jar forgerock-jaspi-runtime-22.0.0.jar forgerock-oauth-core-22.0.0.jar forgerock-openid-resolver-22.0.0.jar forgerock-persistit-core-4.3.3.jar forgerock-selfservice-core-22.0.0.jar forgerock-selfservice-stages-22.0.0.jar forgerock-test-utils-22.0.0.jar freemarker-2.3.25-incubating.jar geoip2-2.0.0.jar google-http-client-1.19.0.jar grizzly-framework-2.3.30.jar grizzly-http-2.3.30.jar grizzly-http-server-2.3.30.jar groovy-2.4.6.jar groovy-json-2.4.6.jar groovy-jsr223-2.4.6.jar groovy-sandbox-1.6.jar guava-18.0.jar guice-4.0-no_aop.jar guice-assistedinject-4.0.jar guice-multibindings-4.0.jar HdrHistogram-2.1.4.jar HikariCP-2.4.1.jar hll-1.6.0.jar httpasyncclient-osgi-4.1.2.jar httpclient-osgi-4.5.2.jar httpcore-osgi-4.4.5.jar i18n-slf4j-1.4.2.jar isorelax-20030108.jar jackson-dataformat-cbor-2.5.3.jar jackson-dataformat-csv-2.8.9.jar jackson-dataformat-smile-2.4.4.jar jackson-dataformat-xml-2.8.9.jar jackson-dataformat-yaml-2.3.4.jar jackson-module-jaxb-annotations-2.8.9.jar jato-2005-05-04.jar java-ipv6-0.14.jar java-semver-0.9.0.jar javax.jms-api-2.0.1.jar javax.mail-1.5.1.jar javax.security.auth.message-3.1.jar jaxb1-impl-2.0.2.jar jaxb-impl-1.0.6.jar jaxp-api-1.4.2.jar jaxrpc-api-1.1.jar jaxrpc-impl-1.1.3_01-20160905.jar jaxrpc-spi-1.1.3_01.jar jcip-annotations-1.0-1.jar jcl-over-slf4j-1.7.21.jar jgrapht-core-0.9.1.jar jruby-complete-1.7.21.jar json-20090211.jar json-resource-22.0.0-tests.jar json-resource-http-22.0.0.jar json-web-token-22.0.0.jar jsr305-3.0.0.jar jstl-1.1.2.jar juel-api-2.2.7.jar juel-impl-2.2.7.jar jul-to-slf4j-1.7.21.jar maxmind-db-1.0.0.jar metrics-core-3.2.2.jar metrics-graphite-3.2.2.jar metrics-json-3.2.2.jar mimepull-1.7.jar monitoring-json-resource-22.0.0.jar oauth-instagram-client-22.0.0.jar oauth-oauth2-client-22.0.0.jar oauth-oidc-client-22.0.0.jar oauth-vk-client-22.0.0.jar oauth-wechat-client-22.0.0.jar ognl-2.6.9.jar openam-annotations-5.5.1.jar openam-audit-configuration-5.5.1.jar openam-audit-context-5.5.1.jar openam-audit-core-5.5.1.jar openam-audit-rest-5.5.1.jar openam-auth-ad-5.5.1.jar openam-auth-adaptive-5.5.1.jar openam-auth-amster-5.5.1.jar openam-auth-anonymous-5.5.1.jar openam-auth-application-5.5.1.jar openam-auth-cert-5.5.1.jar openam-auth-common-5.5.1.jar openam-auth-datastore-5.5.1.jar openam-auth-device-id-5.5.1.jar openam-auth-edge-5.5.1.jar openam-auth-fr-oath-5.5.1.jar openam-auth-hotp-5.5.1.jar openam-auth-httpbasic-5.5.1.jar openam-auth-jdbc-5.5.1.jar openam-auth-jwt-pop-5.5.1.jar openam-auth-ldap-5.5.1.jar openam-auth-membership-5.5.1.jar openam-auth-msisdn-5.5.1.jar openam-auth-nt-5.5.1.jar openam-auth-oath-5.5.1.jar openam-auth-oauth2-5.5.1.jar openam-auth-oidc-5.5.1.jar openam-auth-persistentcookie-5.5.1.jar openam-auth-push-5.5.1.jar openam-auth-radius-5.5.1.jar openam-auth-saml2-5.5.1.jar openam-auth-scripted-5.5.1.jar openam-auth-securid-5.5.1.jar openam-auth-social-5.5.1.jar openam-auth-windowsdesktopsso-5.5.1.jar openam-certs-5.5.1.jar openam-client-sts-5.5.1.jar openam-common-auth-ui-5.5.1.jar openam-common-sts-5.5.1.jar openam-core-5.5.1.jar openam-core-rest-5.5.1.jar openam-dashboard-5.5.1.jar openam-datastore-5.5.1.jar openam-dtd-schema-5.5.1.jar openam-entitlements-5.5.1.jar openam-federation-library-5.5.1.jar openam-guice-core-5.5.1.jar openam-guice-servlet-5.5.1.jar openam-http-5.5.1.jar openam-http-client-5.5.1.jar openam-i18n-5.5.1.jar openam-idpdiscovery-5.5.1.jar openam-idsvcs-schema-5.5.1.jar openam-jaxrpc-schema-5.5.1.jar openam-keystore-5.5.1.jar openam-ldap-utils-5.5.1.jar openam-liberty-schema-5.5.1.jar openam-license-core-5.5.1.jar openam-license-manager-cli-5.5.1.jar openam-license-servlet-5.5.1.jar openam-mib-schema-5.5.1.jar openam-monitoring-configuration-5.5.1.jar openam-monitoring-core-5.5.1.jar openam-monitoring-crest-5.5.1.jar openam-monitoring-graphite-5.5.1.jar openam-monitoring-jmx-5.5.1.jar openam-notifications-5.5.1.jar openam-notifications-integration-5.5.1.jar openam-notifications-websocket-5.5.1.jar openam-oauth2-5.5.1.jar openam-oauth2-saml2-5.5.1.jar openam-plugin-framework-5.5.1.jar openam-publish-sts-5.5.1.jar openam-push-notification-5.5.1.jar openam-radius-common-5.5.1.jar openam-radius-server-5.5.1.jar openam-rest-5.5.1.jar openam-restlet-5.5.1.jar openam-rest-sts-5.5.1.jar openam-saml2-schema-5.5.1.jar openam-scripting-5.5.1.jar openam-selfservice-5.5.1.jar openam-server-auth-ui-5.5.1.jar openam-shared-5.5.1.jar openam-slf4j-5.5.1.jar openam-tokens-5.5.1.jar openam-token-service-sts-5.5.1.jar openam-transaction-core-5.5.1.jar openam-transaction-impl-5.5.1.jar openam-ui-api-5.5.1.jar openam-uma-5.5.1.jar openam-upgrade-5.5.1.jar openam-wsfederation-schema-5.5.1.jar openam-xacml3-schema-5.5.1.jar opendj-cli-5.5.0.jar opendj-config-5.5.0.jar opendj-core-5.5.0.jar opendj-grizzly-5.5.0.jar opendj-rest2ldap-5.5.0.jar opendj-server-5.5.0.jar OpenFM-5.5.1.jar org.restlet.ext.freemarker-2.3.4.jar org.restlet.ext.jackson-2.3.4.jar org.restlet.ext.json-2.3.4.jar org.restlet.ext.servlet-2.3.4.jar org.restlet.ext.slf4j-2.3.4.jar org.restlet.ext.xml-2.3.4.jar org.restlet.lib.org.json-2.0.jar org.restlet-2.3.4.jar reactive-streams-1.0.0.jar relaxngDatatype-20020414.jar rhino-1.7R4.jar rxjava-2.1.0.jar saaj-impl-1.3.19.jar snakeyaml-1.13.jar stax2-api-3.1.4.jar vavr-0.9.0.jar vavr-match-0.9.0.jar velocity-1.7.jar woodstox-core-5.0.3.jar woodstox-core-asl-4.3.0.jar xmlsec-1.5.6.jar xsdlib-20060615.jar"/>
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="clean" description="clean up">
+		<delete dir="${build.dir}" />
+		<delete dir="${dist.dir}" />
+		<delete dir="${dist.lib.dir}" />
+	</target>
+
+	<!-- Default, run this -->
+	<target name="main" depends="clean, compile, build" />
+
+	<!--<target name="publish" depends="build">
+		<ivy:publish resolver="publish" overwrite="true" artifactspattern="${dist.dir}/[artifact].[ext]" />
+	</target>-->
+
+</project>
