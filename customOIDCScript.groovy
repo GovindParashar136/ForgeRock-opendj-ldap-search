@@ -276,15 +276,9 @@ scopeClaimsMap = [
         "phone": [ "phone_number" ],
         "profile": [ "given_name", "zoneinfo", "family_name", "locale", "name", "uid" ],
         "roles": [ "roles" ],
-        "odscodes": [ "odscodes" ],
-		"nhsperson": [ "nhsid_useruid","given_name", "family_name", "name", "primary_org", "title", "idassurancelevel"],
-		"universalaccess":[ "nhsid_uni_roles" ],
-		"associatedorgs" :["nhsid_user_orgs"],
-		"orgaccess" :["nhsid_org_roles"],
-		"nationalrbacaccess" :["nhsid_useruid","name","session_role", "nhsid_nrbac_roles" ],
-		"professionalmemberships" :["gmc_id", "gdp_id", "gdc_id", "rcn_id", "gmp_id", "nmc_id", "consultant_id", "gphc_id"],
-		"organisationalmemberships" :["nhsid_org_memberships"]
-		
+       	"person": [ "user_id","given_name", "family_name", "name"],
+		"orgaccess" :["id_org_roles"],
+		"nationalrbacaccess" :["id_useruid","name", "id_nrbac_roles" ]
 ]
 
 
